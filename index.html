@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Samuel Kim — Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#080b10;
+  --bg2:#0d1117;
+  --bg3:#161b22;
+  --border:#21262d;
+  --text:#e6edf3;
+  --text2:#8b949e;
+  --text3:#484f58;
+  --accent:#39d353;
+  --accent2:#58a6ff;
+  --accent3:#f78166;
+  --mono:'JetBrains Mono',monospace;
+  --sans:'Syne',sans-serif;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--mono);
+  font-size:14px;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+
+/* ── Grid noise overlay ── */
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:0;
+  opacity:.4;
+}
+
+/* ── Scanline effect ── */
+body::after{
+  content:'';
+  position:fixed;
+  inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ── Cursor ── */
+* { cursor: none !important; }
+#cursor{
+  position:fixed;width:8px;height:8px;
+  background:var(--accent);
+  border-radius:50%;
+  pointer-events:none;z-index:9999;
+  transition:transform .1s,opacity .2s;
+  mix-blend-mode:screen;
+}
+#cursor-ring{
+  position:fixed;width:32px;height:32px;
+  border:1px solid rgba(57,211,83,.4);
+  border-radius:50%;
+  pointer-events:none;z-index:9998;
+  transition:transform .25s cubic-bezier(.25,.46,.45,.94),opacity .2s;
+}
+
+/* ── Layout ── */
+.container{max-width:900px;margin:0 auto;padding:0 32px;position:relative;z-index:1}
+
+/* ── Nav ── */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  z-index:100;
+  border-bottom:1px solid var(--border);
+  background:rgba(8,11,16,.85);
+  backdrop-filter:blur(12px);
+}
+.nav-inner{
+  max-width:900px;margin:0 auto;padding:0 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:56px;
+}
+.nav-logo{
+  font-family:var(--mono);
+  font-size:13px;
+  color:var(--accent);
+  letter-spacing:.05em;
+}
+.nav-logo span{color:var(--text3)}
+.nav-links{display:flex;gap:28px}
+.nav-links a{
+  color:var(--text2);
+  text-decoration:none;
+  font-size:12px;
+  letter-spacing:.08em;
+  transition:color .2s;
+}
+.nav-links a:hover{color:var(--accent)}
+
+/* ── Hero ── */
+#hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding-top:56px;
+  position:relative;
+}
+
+.hero-tag{
+  font-size:11px;
+  color:var(--accent);
+  letter-spacing:.2em;
+  margin-bottom:20px;
+  opacity:0;
+  animation:fadeUp .6s ease forwards .2s;
+}
+
+.hero-tag::before{content:'// '}
+
+h1{
+  font-family:var(--sans);
+  font-size:clamp(48px,8vw,88px);
+  font-weight:800;
+  line-height:.95;
+  letter-spacing:-.03em;
+  margin-bottom:24px;
+  opacity:0;
+  animation:fadeUp .7s ease forwards .35s;
+}
+
+h1 .line2{
+  display:block;
+  color:transparent;
+  -webkit-text-stroke:1px var(--text3);
+}
+
+h1 .accent-word{
+  color:var(--accent);
+  -webkit-text-stroke:0;
+}
+
+.hero-sub{
+  max-width:480px;
+  color:var(--text2);
+  font-size:13px;
+  line-height:1.8;
+  margin-bottom:40px;
+  opacity:0;
+  animation:fadeUp .7s ease forwards .5s;
+}
+
+.hero-links{
+  display:flex;gap:16px;flex-wrap:wrap;
+  opacity:0;
+  animation:fadeUp .7s ease forwards .65s;
+}
+
+.btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 20px;
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:.08em;
+  text-decoration:none;
+  border-radius:4px;
+  transition:all .2s;
+}
+
+.btn-primary{
+  background:var(--accent);
+  color:#080b10;
+  font-weight:700;
+}
+.btn-primary:hover{background:#4dff6b;transform:translateY(-2px)}
+
+.btn-outline{
+  border:1px solid var(--border);
+  color:var(--text2);
+}
+.btn-outline:hover{border-color:var(--accent2);color:var(--accent2);transform:translateY(-2px)}
+
+/* ── Grid bg accent ── */
+.grid-accent{
+  position:absolute;
+  right:-100px;top:50%;transform:translateY(-50%);
+  width:500px;height:500px;
+  opacity:.04;
+  background-image:
+    linear-gradient(var(--accent) 1px,transparent 1px),
+    linear-gradient(90deg,var(--accent) 1px,transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+}
+
+/* ── Section ── */
+section{padding:100px 0}
+
+.section-label{
+  font-size:11px;
+  color:var(--accent);
+  letter-spacing:.2em;
+  margin-bottom:16px;
+}
+.section-label::before{content:'// '}
+
+h2{
+  font-family:var(--sans);
+  font-size:clamp(28px,4vw,40px);
+  font-weight:800;
+  letter-spacing:-.02em;
+  margin-bottom:48px;
+  line-height:1.1;
+}
+
+/* ── About ── */
+.about-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:48px;
+  align-items:start;
+}
+
+.about-text p{
+  color:var(--text2);
+  font-size:13px;
+  line-height:1.9;
+  margin-bottom:16px;
+}
+
+.about-text p strong{color:var(--text)}
+
+.skills-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.skill-item{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 12px;
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:4px;
+  font-size:11px;
+  color:var(--text2);
+  transition:border-color .2s,color .2s;
+}
+.skill-item:hover{border-color:var(--accent);color:var(--text)}
+.skill-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+
+/* ── Projects ── */
+.projects-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.project-card{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:24px;
+  text-decoration:none;
+  color:inherit;
+  display:block;
+  transition:border-color .2s,transform .2s,background .2s;
+  position:relative;
+  overflow:hidden;
+}
+
+.project-card::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(135deg,rgba(57,211,83,.04),transparent);
+  opacity:0;
+  transition:opacity .3s;
+}
+
+.project-card:hover{
+  border-color:var(--accent);
+  transform:translateY(-4px);
+  background:var(--bg3);
+}
+.project-card:hover::before{opacity:1}
+
+.project-card.featured{
+  grid-column:span 2;
+  border-color:rgba(57,211,83,.2);
+  background:linear-gradient(135deg,rgba(57,211,83,.03),var(--bg2));
+}
+
+.project-card.no-link{
+  cursor:default !important;
+}
+.project-card.no-link:hover{
+  transform:none;
+}
+
+.card-top{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+}
+
+.card-icon{
+  width:36px;height:36px;
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;
+}
+
+.card-arrow{
+  color:var(--text3);
+  font-size:18px;
+  transition:color .2s,transform .2s;
+}
+.project-card:hover .card-arrow{color:var(--accent);transform:translate(3px,-3px)}
+
+.private-badge{
+  font-size:10px;
+  padding:3px 10px;
+  border-radius:3px;
+  background:rgba(247,129,102,.1);
+  border:1px solid rgba(247,129,102,.3);
+  color:var(--accent3);
+  letter-spacing:.06em;
+}
+
+.card-title{
+  font-family:var(--sans);
+  font-size:17px;
+  font-weight:600;
+  margin-bottom:6px;
+  color:var(--text);
+}
+
+.card-desc{
+  font-size:12px;
+  color:var(--text2);
+  line-height:1.7;
+  margin-bottom:16px;
+}
+
+.card-tags{
+  display:flex;gap:6px;flex-wrap:wrap;
+}
+
+.tag{
+  font-size:10px;
+  padding:3px 8px;
+  border-radius:3px;
+  background:var(--bg3);
+  border:1px solid var(--border);
+  color:var(--text3);
+  letter-spacing:.04em;
+}
+
+.tag.green{background:rgba(57,211,83,.1);border-color:rgba(57,211,83,.3);color:var(--accent)}
+.tag.blue{background:rgba(88,166,255,.1);border-color:rgba(88,166,255,.3);color:var(--accent2)}
+
+/* ── Stats bar (featured card) ── */
+.card-stats{
+  display:flex;gap:24px;
+  padding-top:16px;
+  margin-top:16px;
+  border-top:1px solid var(--border);
+}
+.stat{font-size:11px;color:var(--text3)}
+.stat strong{display:block;font-size:15px;color:var(--accent);font-family:var(--sans);font-weight:600}
+
+/* ── Contact ── */
+#contact{padding-bottom:120px}
+
+.terminal-box{
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:8px;
+  overflow:hidden;
+}
+
+.terminal-header{
+  display:flex;align-items:center;gap:8px;
+  padding:12px 16px;
+  background:var(--bg3);
+  border-bottom:1px solid var(--border);
+}
+
+.term-dot{width:10px;height:10px;border-radius:50%}
+.term-dot.r{background:#f78166}
+.term-dot.y{background:#e3b341}
+.term-dot.g{background:#3fb950}
+
+.terminal-title{
+  margin-left:8px;
+  font-size:11px;
+  color:var(--text3);
+}
+
+.terminal-body{
+  padding:24px;
+  font-size:13px;
+  line-height:2;
+}
+
+.term-line{display:flex;gap:12px;align-items:baseline}
+.term-prompt{color:var(--accent);flex-shrink:0}
+.term-key{color:var(--accent2)}
+.term-val{color:var(--text)}
+.term-val a{color:var(--text);text-decoration:none;border-bottom:1px solid var(--border);transition:border-color .2s,color .2s}
+.term-val a:hover{color:var(--accent);border-color:var(--accent)}
+
+.blink{
+  display:inline-block;
+  width:8px;height:14px;
+  background:var(--accent);
+  margin-left:2px;
+  animation:blink 1s step-end infinite;
+  vertical-align:text-bottom;
+}
+
+/* ── Footer ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:24px 0;
+  text-align:center;
+}
+.footer-text{font-size:11px;color:var(--text3)}
+.footer-text span{color:var(--accent)}
+
+/* ── Animations ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+@keyframes blink{
+  0%,100%{opacity:1}
+  50%{opacity:0}
+}
+
+.reveal{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity .7s ease,transform .7s ease;
+}
+.reveal.visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* ── Responsive ── */
+@media(max-width:640px){
+  .about-grid{grid-template-columns:1fr}
+  .projects-grid{grid-template-columns:1fr}
+  .project-card.featured{grid-column:span 1}
+  h1{font-size:42px}
+  .nav-links{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">samuel-kim00<span>.dev</span></div>
+    <div class="nav-links">
+      <a href="#about">about</a>
+      <a href="#projects">projects</a>
+      <a href="#contact">contact</a>
+      <a href="https://github.com/samuel-kim00" target="_blank">github ↗</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="container">
+    <div class="grid-accent"></div>
+    <p class="hero-tag">software engineer · irvine, ca</p>
+    <h1>
+      Samuel<br>
+      <span class="line2">Kim<span class="accent-word">.</span></span>
+    </h1>
+    <p class="hero-sub">
+      Computer Engineering student at UC Irvine building AI-powered tools,
+      Chrome extensions, iOS apps, and autonomous trading systems.
+      I care about shipping things that are fast, intentional, and actually useful.
+    </p>
+    <div class="hero-links">
+      <a href="#projects" class="btn btn-primary">view projects ↓</a>
+      <a href="https://github.com/samuel-kim00" target="_blank" class="btn btn-outline">github ↗</a>
+      <a href="mailto:sammy03312@gmail.com" class="btn btn-outline">email ↗</a>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">about</p>
+      <h2>Building things<br>that actually work.</h2>
+    </div>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p>
+          I'm a <strong>Computer Engineering student at UC Irvine</strong> (graduating March 2028),
+          building across AI integrations, iOS, and web.
+        </p>
+        <p>
+          My recent work spans <strong>Claude AI-powered tools</strong> —
+          Chrome extensions that augment everyday workflows, a multi-tool Telegram agent,
+          and an autonomous stock trading system. Alongside that I'm building an
+          <strong>iOS budgeting app</strong> with Swift and SwiftUI as part of LikeLion UCI.
+        </p>
+        <p>
+          I care about shipping things that feel fast, intentional,
+          and genuinely useful — not just technically impressive.
+        </p>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--text3);letter-spacing:.1em;margin-bottom:12px">TECH STACK</div>
+        <div class="skills-grid">
+          <div class="skill-item"><span class="skill-dot"></span>Python</div>
+          <div class="skill-item"><span class="skill-dot"></span>JavaScript</div>
+          <div class="skill-item"><span class="skill-dot"></span>Swift / SwiftUI</div>
+          <div class="skill-item"><span class="skill-dot"></span>React</div>
+          <div class="skill-item"><span class="skill-dot"></span>C# / Unity</div>
+          <div class="skill-item"><span class="skill-dot"></span>Claude API</div>
+          <div class="skill-item"><span class="skill-dot"></span>Chrome Extensions</div>
+          <div class="skill-item"><span class="skill-dot"></span>REST APIs</div>
+          <div class="skill-item"><span class="skill-dot"></span>GitHub Actions</div>
+          <div class="skill-item"><span class="skill-dot"></span>Git</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">projects</p>
+      <h2>Things I've<br>shipped.</h2>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- Featured: AI Trading System -->
+      <div class="project-card featured no-link reveal">
+        <div class="card-top">
+          <div class="card-icon">📈</div>
+          <span class="private-badge">Private</span>
+        </div>
+        <div class="card-title">AI Algorithmic Trading System</div>
+        <div class="card-desc">
+          Autonomous trading agent powered by Claude AI that processes real-time news,
+          geopolitical events, and market signals to identify opportunities across the full
+          US equity market. Scans 2,000+ stocks nightly via Alpaca Markets with a hybrid
+          keyword + LLM pipeline that maps macro events (earnings, FOMC, geopolitical shocks)
+          to sector/stock candidates. Fully automated via GitHub Actions — pre-market scans,
+          intraday monitoring, options flow analysis, short squeeze detection, and ML model
+          retraining, all without manual intervention.
+        </div>
+        <div class="card-tags">
+          <span class="tag green">Claude AI Agent</span>
+          <span class="tag blue">Python</span>
+          <span class="tag">Alpaca Markets</span>
+          <span class="tag">GitHub Actions CI/CD</span>
+          <span class="tag">Machine Learning</span>
+          <span class="tag">Options Flow</span>
+          <span class="tag">yfinance</span>
+        </div>
+        <div class="card-stats">
+          <div class="stat"><strong>2,000+</strong>stocks scanned daily</div>
+          <div class="stat"><strong>177</strong>automated tests</div>
+          <div class="stat"><strong>24/7</strong>autonomous</div>
+        </div>
+      </div>
+
+      <!-- Featured: Daily Agent -->
+      <a href="https://github.com/samuel-kim00/daily-agent" target="_blank" class="project-card featured reveal">
+        <div class="card-top">
+          <div class="card-icon">🤖</div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div class="card-title">Daily Agent</div>
+        <div class="card-desc">
+          Personal AI assistant via Telegram. Designed a multi-tool Claude agent
+          orchestrating 4 external APIs — todos via Notion, calendar via Google Cal,
+          deal search, and weather — all through natural language. Includes automated
+          daily briefings via APScheduler.
+        </div>
+        <div class="card-tags">
+          <span class="tag green">Claude tool_use</span>
+          <span class="tag blue">Python</span>
+          <span class="tag">Telegram Bot</span>
+          <span class="tag">Notion API</span>
+          <span class="tag">Google Calendar</span>
+          <span class="tag">OpenWeatherMap</span>
+        </div>
+        <div class="card-stats">
+          <div class="stat"><strong>4</strong>APIs connected</div>
+          <div class="stat"><strong>5</strong>tools orchestrated</div>
+          <div class="stat"><strong>24/7</strong>autonomous</div>
+        </div>
+      </a>
+
+      <!-- ToneMail -->
+      <a href="https://github.com/samuel-kim00/tonemail" target="_blank" class="project-card reveal">
+        <div class="card-top">
+          <div class="card-icon">✉️</div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div class="card-title">ToneMail</div>
+        <div class="card-desc">
+          Chrome extension that rewrites Gmail drafts in the right tone
+          for any recipient — professor, manager, client, or friend.
+          Auto-detects recipient context from email domain and title.
+        </div>
+        <div class="card-tags">
+          <span class="tag green">Claude API</span>
+          <span class="tag blue">Chrome MV3</span>
+          <span class="tag">Gmail DOM</span>
+          <span class="tag">Side Panel API</span>
+        </div>
+      </a>
+
+      <!-- LinkedAI -->
+      <a href="https://github.com/samuel-kim00/linkedai" target="_blank" class="project-card reveal">
+        <div class="card-top">
+          <div class="card-icon">💼</div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div class="card-title">LinkedAI</div>
+        <div class="card-desc">
+          LinkedIn AI writing assistant — posts, comments, DMs, and content
+          improvement. Reads page context automatically.
+          3 configurable tone profiles.
+        </div>
+        <div class="card-tags">
+          <span class="tag green">Claude API</span>
+          <span class="tag blue">Chrome MV3</span>
+          <span class="tag">LinkedIn DOM</span>
+        </div>
+      </a>
+
+      <!-- TubeDigest -->
+      <a href="https://github.com/samuel-kim00/tubedigest" target="_blank" class="project-card reveal">
+        <div class="card-top">
+          <div class="card-icon">▶️</div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div class="card-title">TubeDigest</div>
+        <div class="card-desc">
+          YouTube AI summarizer with clickable chapters and Q&amp;A.
+          Extracts transcripts from YouTube's internal caption API —
+          no YouTube API key required.
+        </div>
+        <div class="card-tags">
+          <span class="tag green">Claude API</span>
+          <span class="tag blue">Chrome MV3</span>
+          <span class="tag">Caption API</span>
+          <span class="tag">DOM seek</span>
+        </div>
+      </a>
+
+      <!-- PriceLens -->
+      <a href="https://github.com/samuel-kim00/pricelens" target="_blank" class="project-card reveal">
+        <div class="card-top">
+          <div class="card-icon">📊</div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div class="card-title">PriceLens</div>
+        <div class="card-desc">
+          Chrome extension tracking prices on Amazon, Walmart, and Best Buy.
+          90-day history chart, target price alerts via Chrome Notifications,
+          and a live hot deal feed from Slickdeals and DealNews.
+        </div>
+        <div class="card-tags">
+          <span class="tag blue">Chrome MV3</span>
+          <span class="tag">Canvas API</span>
+          <span class="tag">chrome.alarms</span>
+          <span class="tag">RSS</span>
+        </div>
+      </a>
+
+      <!-- Crypto Trading Bot -->
+      <a href="https://github.com/samuel-kim00/crypto-trading-bot" target="_blank" class="project-card reveal">
+        <div class="card-top">
+          <div class="card-icon">🔁</div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div class="card-title">Crypto Trading Bot</div>
+        <div class="card-desc">
+          Automated trading system in Python with a modular execution pipeline,
+          configurable strategy parameters, backtesting framework, and a
+          Flask-based monitoring dashboard for real-time system observability.
+        </div>
+        <div class="card-tags">
+          <span class="tag blue">Python</span>
+          <span class="tag">REST APIs</span>
+          <span class="tag">Flask</span>
+          <span class="tag">Backtesting</span>
+        </div>
+      </a>
+
+      <!-- iOS Budgeting App -->
+      <a href="https://github.com/samuel-kim00/ios-budgeting-app" target="_blank" class="project-card reveal">
+        <div class="card-top">
+          <div class="card-icon">💰</div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div class="card-title">iOS Budgeting App</div>
+        <div class="card-desc">
+          SwiftUI budgeting app built with LikeLion UCI. Feature-based MVVM architecture
+          with calendar-based spending visualization, transaction categorization,
+          and a scalable data model designed for future AI-assisted insights.
+        </div>
+        <div class="card-tags">
+          <span class="tag blue">Swift</span>
+          <span class="tag">SwiftUI</span>
+          <span class="tag">MVVM</span>
+          <span class="tag">Team Project</span>
+        </div>
+      </a>
+
+      <!-- Coffee Club Web Platform -->
+      <div class="project-card no-link reveal">
+        <div class="card-top">
+          <div class="card-icon">☕</div>
+        </div>
+        <div class="card-title">Coffee Club Web Platform</div>
+        <div class="card-desc">
+          Web platform for campus event tracking and member engagement,
+          built with HTML, CSS, and JavaScript. Also developed a Unity-based
+          mini game with object-oriented gameplay logic for the club.
+        </div>
+        <div class="card-tags">
+          <span class="tag blue">JavaScript</span>
+          <span class="tag">HTML / CSS</span>
+          <span class="tag">Unity</span>
+          <span class="tag">C#</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <div class="container">
+    <div class="reveal">
+      <p class="section-label">contact</p>
+      <h2>Let's work<br>together.</h2>
+    </div>
+    <div class="terminal-box reveal">
+      <div class="terminal-header">
+        <div class="term-dot r"></div>
+        <div class="term-dot y"></div>
+        <div class="term-dot g"></div>
+        <span class="terminal-title">contact.sh</span>
+      </div>
+      <div class="terminal-body">
+        <div class="term-line">
+          <span class="term-prompt">$</span>
+          <span style="color:var(--text2)">cat contact.json</span>
+        </div>
+        <div style="margin:8px 0 4px;color:var(--text3)">{</div>
+        <div class="term-line" style="margin-left:16px">
+          <span class="term-key">"name"</span>
+          <span style="color:var(--text3)">:</span>
+          <span class="term-val">"Samuel Kim"</span><span style="color:var(--text3)">,</span>
+        </div>
+        <div class="term-line" style="margin-left:16px">
+          <span class="term-key">"location"</span>
+          <span style="color:var(--text3)">:</span>
+          <span class="term-val">"Irvine, CA"</span><span style="color:var(--text3)">,</span>
+        </div>
+        <div class="term-line" style="margin-left:16px">
+          <span class="term-key">"email"</span>
+          <span style="color:var(--text3)">:</span>
+          <span class="term-val"><a href="mailto:sammy03312@gmail.com">sammy03312@gmail.com</a></span><span style="color:var(--text3)">,</span>
+        </div>
+        <div class="term-line" style="margin-left:16px">
+          <span class="term-key">"linkedin"</span>
+          <span style="color:var(--text3)">:</span>
+          <span class="term-val"><a href="https://www.linkedin.com/in/samuel-kim00/" target="_blank">linkedin.com/in/samuel-kim00</a></span><span style="color:var(--text3)">,</span>
+        </div>
+        <div class="term-line" style="margin-left:16px">
+          <span class="term-key">"github"</span>
+          <span style="color:var(--text3)">:</span>
+          <span class="term-val"><a href="https://github.com/samuel-kim00" target="_blank">github.com/samuel-kim00</a></span><span style="color:var(--text3)">,</span>
+        </div>
+        <div class="term-line" style="margin-left:16px">
+          <span class="term-key">"status"</span>
+          <span style="color:var(--text3)">:</span>
+          <span style="color:var(--accent)">"open to opportunities"</span>
+        </div>
+        <div style="margin-top:4px;color:var(--text3)">}</div>
+        <div style="margin-top:16px" class="term-line">
+          <span class="term-prompt">$</span>
+          <span class="blink"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p class="footer-text">
+      Built by <span>Samuel Kim</span> · 2026 ·
+      <a href="https://github.com/samuel-kim00" target="_blank" style="color:var(--text3);text-decoration:none">samuel-kim00</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx - 4 + 'px';
+  cursor.style.top = my - 4 + 'px';
+});
+
+function animateRing() {
+  rx += (mx - rx - 16) * 0.18;
+  ry += (my - ry - 16) * 0.18;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.transform = 'scale(2.5)';
+    ring.style.transform = 'scale(1.5)';
+    ring.style.borderColor = 'rgba(57,211,83,.8)';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.transform = 'scale(1)';
+    ring.style.transform = 'scale(1)';
+    ring.style.borderColor = 'rgba(57,211,83,.4)';
+  });
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Active nav link
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+window.addEventListener('scroll', () =
