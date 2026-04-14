@@ -56,23 +56,6 @@ body::after{
   z-index:0;
 }
 
-/* ── Cursor ── */
-* { cursor: none !important; }
-#cursor{
-  position:fixed;width:8px;height:8px;
-  background:var(--accent);
-  border-radius:50%;
-  pointer-events:none;z-index:9999;
-  transition:transform .1s,opacity .2s;
-  mix-blend-mode:screen;
-}
-#cursor-ring{
-  position:fixed;width:32px;height:32px;
-  border:1px solid rgba(57,211,83,.4);
-  border-radius:50%;
-  pointer-events:none;z-index:9998;
-  transition:transform .25s cubic-bezier(.25,.46,.45,.94),opacity .2s;
-}
 
 /* ── Layout ── */
 .container{max-width:900px;margin:0 auto;padding:0 32px;position:relative;z-index:1}
@@ -471,8 +454,6 @@ footer{
 </head>
 <body>
 
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
 
 <!-- Nav -->
 <nav>
@@ -491,20 +472,19 @@ footer{
 <section id="hero">
   <div class="container">
     <div class="grid-accent"></div>
-    <p class="hero-tag">software engineer · irvine, ca</p>
+    <p class="hero-tag">computer engineering · irvine, ca</p>
     <h1>
       Samuel<br>
       <span class="line2">Kim<span class="accent-word">.</span></span>
     </h1>
     <p class="hero-sub">
-      I build AI-powered tools and autonomous systems —
-      from Chrome extensions and multi-tool agents to
-      algorithmic trading systems powered by Claude AI.
+      CE student at UC Irvine who likes trying new things —
+      iOS, web, trading systems, AI tools. Currently exploring a lot with Claude.
     </p>
     <div class="hero-links">
       <a href="#projects" class="btn btn-primary">view projects ↓</a>
       <a href="https://github.com/samuel-kim00" target="_blank" class="btn btn-outline">github ↗</a>
-      <a href="mailto:sammy03312@gmail.com" class="btn btn-outline">email ↗</a>
+      <a href="/cdn-cgi/l/email-protection#e89b89858591d8dbdbd9daa88f85898184c68b8785" class="btn btn-outline">email ↗</a>
     </div>
   </div>
 </section>
@@ -519,18 +499,16 @@ footer{
     <div class="about-grid reveal">
       <div class="about-text">
         <p>
-          I'm a software engineer based in <strong>Irvine, CA</strong>,
-          focused on building AI-powered products and autonomous systems.
+          I'm a <strong>Computer Engineering student at UC Irvine</strong> (graduating March 2028).
+          I like jumping into things that seem interesting — iOS, web, game dev, trading systems, AI tools.
         </p>
         <p>
-          My current work spans <strong>Claude AI integrations</strong> —
-          from browser extensions that augment everyday workflows to
-          autonomous trading agents that process real-time market data
-          and geopolitical signals across thousands of stocks.
+          Lately I've been exploring a lot with <strong>Claude API</strong> — built a few Chrome extensions,
+          a Telegram agent, and an autonomous stock trading system. Also building an
+          <strong>iOS budgeting app</strong> with Swift as part of LikeLion UCI.
         </p>
         <p>
-          I care about shipping things that feel fast, intentional,
-          and genuinely useful — not just technically impressive.
+          I'm still figuring a lot of things out, but I learn fast and I like making things that actually work.
         </p>
       </div>
       <div>
@@ -538,14 +516,14 @@ footer{
         <div class="skills-grid">
           <div class="skill-item"><span class="skill-dot"></span>Python</div>
           <div class="skill-item"><span class="skill-dot"></span>JavaScript</div>
+          <div class="skill-item"><span class="skill-dot"></span>Swift / SwiftUI</div>
+          <div class="skill-item"><span class="skill-dot"></span>React</div>
+          <div class="skill-item"><span class="skill-dot"></span>C# / Unity</div>
           <div class="skill-item"><span class="skill-dot"></span>Claude API</div>
-          <div class="skill-item"><span class="skill-dot"></span>Alpaca Markets API</div>
-          <div class="skill-item"><span class="skill-dot"></span>GitHub Actions</div>
           <div class="skill-item"><span class="skill-dot"></span>Chrome Extensions</div>
-          <div class="skill-item"><span class="skill-dot"></span>Machine Learning</div>
           <div class="skill-item"><span class="skill-dot"></span>REST APIs</div>
-          <div class="skill-item"><span class="skill-dot"></span>Swift / iOS</div>
-          <div class="skill-item"><span class="skill-dot"></span>Telegram Bot API</div>
+          <div class="skill-item"><span class="skill-dot"></span>GitHub Actions</div>
+          <div class="skill-item"><span class="skill-dot"></span>Git</div>
         </div>
       </div>
     </div>
@@ -622,8 +600,28 @@ footer{
         </div>
       </a>
 
+      <!-- iOS Budgeting App -->
+      <a href="https://github.com/Biglostar/ucilikelion/tree/replace-frontend" target="_blank" class="project-card reveal">
+        <div class="card-top">
+          <div class="card-icon">💰</div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div class="card-title">iOS Budgeting App</div>
+        <div class="card-desc">
+          SwiftUI budgeting app built with LikeLion UCI. Feature-based MVVM architecture
+          with calendar-based spending visualization, transaction categorization,
+          and a scalable data model designed for future AI-assisted insights.
+        </div>
+        <div class="card-tags">
+          <span class="tag blue">Swift</span>
+          <span class="tag">SwiftUI</span>
+          <span class="tag">MVVM</span>
+          <span class="tag">Team Project</span>
+        </div>
+      </a>
+
       <!-- ToneMail -->
-      <a href="https://github.com/samuel-kim00/tonemail" target="_blank" class="project-card reveal">
+      <a href="https://github.com/samuel-kim00/chrome-extensions" target="_blank" class="project-card reveal">
         <div class="card-top">
           <div class="card-icon">✉️</div>
           <span class="card-arrow">↗</span>
@@ -643,7 +641,7 @@ footer{
       </a>
 
       <!-- LinkedAI -->
-      <a href="https://github.com/samuel-kim00/linkedai" target="_blank" class="project-card reveal">
+      <a href="https://github.com/samuel-kim00/chrome-extensions" target="_blank" class="project-card reveal">
         <div class="card-top">
           <div class="card-icon">💼</div>
           <span class="card-arrow">↗</span>
@@ -662,7 +660,7 @@ footer{
       </a>
 
       <!-- TubeDigest -->
-      <a href="https://github.com/samuel-kim00/tubedigest" target="_blank" class="project-card reveal">
+      <a href="https://github.com/samuel-kim00/chrome-extensions" target="_blank" class="project-card reveal">
         <div class="card-top">
           <div class="card-icon">▶️</div>
           <span class="card-arrow">↗</span>
@@ -682,16 +680,16 @@ footer{
       </a>
 
       <!-- PriceLens -->
-      <a href="https://github.com/samuel-kim00/pricelens" target="_blank" class="project-card reveal">
+      <a href="https://github.com/samuel-kim00/chrome-extensions" target="_blank" class="project-card reveal">
         <div class="card-top">
           <div class="card-icon">📊</div>
           <span class="card-arrow">↗</span>
         </div>
         <div class="card-title">PriceLens</div>
         <div class="card-desc">
-          Amazon price tracker with 90-day history chart, target price
-          alerts via Chrome Notifications, and a live deal feed from
-          Slickdeals and DealNews.
+          Chrome extension tracking prices on Amazon, Walmart, and Best Buy.
+          90-day history chart, target price alerts via Chrome Notifications,
+          and a live hot deal feed from Slickdeals and DealNews.
         </div>
         <div class="card-tags">
           <span class="tag blue">Chrome MV3</span>
@@ -700,6 +698,45 @@ footer{
           <span class="tag">RSS</span>
         </div>
       </a>
+
+      <!-- Crypto Trading Bot -->
+      <a href="https://github.com/samuel-kim00/crypto-trading-bot" target="_blank" class="project-card reveal">
+        <div class="card-top">
+          <div class="card-icon">🔁</div>
+          <span class="card-arrow">↗</span>
+        </div>
+        <div class="card-title">Crypto Trading Bot</div>
+        <div class="card-desc">
+          Automated trading system in Python with a modular execution pipeline,
+          configurable strategy parameters, backtesting framework, and a
+          Flask-based monitoring dashboard for real-time system observability.
+        </div>
+        <div class="card-tags">
+          <span class="tag blue">Python</span>
+          <span class="tag">REST APIs</span>
+          <span class="tag">Flask</span>
+          <span class="tag">Backtesting</span>
+        </div>
+      </a>
+
+      <!-- Coffee Club Web Platform -->
+      <div class="project-card no-link reveal">
+        <div class="card-top">
+          <div class="card-icon">☕</div>
+        </div>
+        <div class="card-title">Coffee Club Web Platform</div>
+        <div class="card-desc">
+          Web platform for campus event tracking and member engagement,
+          built with HTML, CSS, and JavaScript. Also developed a Unity-based
+          mini game with object-oriented gameplay logic for the club.
+        </div>
+        <div class="card-tags">
+          <span class="tag blue">JavaScript</span>
+          <span class="tag">HTML / CSS</span>
+          <span class="tag">Unity</span>
+          <span class="tag">C#</span>
+        </div>
+      </div>
 
     </div>
   </div>
@@ -775,39 +812,6 @@ footer{
 </footer>
 
 <script>
-// Custom cursor
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
-let mx = 0, my = 0, rx = 0, ry = 0;
-
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx - 4 + 'px';
-  cursor.style.top = my - 4 + 'px';
-});
-
-function animateRing() {
-  rx += (mx - rx - 16) * 0.18;
-  ry += (my - ry - 16) * 0.18;
-  ring.style.left = rx + 'px';
-  ring.style.top = ry + 'px';
-  requestAnimationFrame(animateRing);
-}
-animateRing();
-
-document.querySelectorAll('a, button').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.style.transform = 'scale(2.5)';
-    ring.style.transform = 'scale(1.5)';
-    ring.style.borderColor = 'rgba(57,211,83,.8)';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursor.style.transform = 'scale(1)';
-    ring.style.transform = 'scale(1)';
-    ring.style.borderColor = 'rgba(57,211,83,.4)';
-  });
-});
-
 // Scroll reveal
 const observer = new IntersectionObserver(entries => {
   entries.forEach((entry, i) => {
@@ -818,7 +822,6 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.1 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
 // Active nav link
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a');
@@ -832,7 +835,7 @@ window.addEventListener('scroll', () => {
     a.style.color = a.getAttribute('href') === '#' + current
       ? 'var(--accent)' : '';
   });
-}, { passive: true });
+});
 </script>
 </body>
 </html>
