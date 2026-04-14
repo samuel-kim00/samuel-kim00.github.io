@@ -497,9 +497,9 @@ footer{
       <span class="line2">Kim<span class="accent-word">.</span></span>
     </h1>
     <p class="hero-sub">
-      Computer Engineering student at UC Irvine building AI-powered tools,
-      Chrome extensions, iOS apps, and autonomous trading systems.
-      I care about shipping things that are fast, intentional, and actually useful.
+      I build AI-powered tools and autonomous systems —
+      from Chrome extensions and multi-tool agents to
+      algorithmic trading systems powered by Claude AI.
     </p>
     <div class="hero-links">
       <a href="#projects" class="btn btn-primary">view projects ↓</a>
@@ -519,14 +519,14 @@ footer{
     <div class="about-grid reveal">
       <div class="about-text">
         <p>
-          I'm a <strong>Computer Engineering student at UC Irvine</strong> (graduating March 2028),
-          building across AI integrations, iOS, and web.
+          I'm a software engineer based in <strong>Irvine, CA</strong>,
+          focused on building AI-powered products and autonomous systems.
         </p>
         <p>
-          My recent work spans <strong>Claude AI-powered tools</strong> —
-          Chrome extensions that augment everyday workflows, a multi-tool Telegram agent,
-          and an autonomous stock trading system. Alongside that I'm building an
-          <strong>iOS budgeting app</strong> with Swift and SwiftUI as part of LikeLion UCI.
+          My current work spans <strong>Claude AI integrations</strong> —
+          from browser extensions that augment everyday workflows to
+          autonomous trading agents that process real-time market data
+          and geopolitical signals across thousands of stocks.
         </p>
         <p>
           I care about shipping things that feel fast, intentional,
@@ -538,14 +538,14 @@ footer{
         <div class="skills-grid">
           <div class="skill-item"><span class="skill-dot"></span>Python</div>
           <div class="skill-item"><span class="skill-dot"></span>JavaScript</div>
-          <div class="skill-item"><span class="skill-dot"></span>Swift / SwiftUI</div>
-          <div class="skill-item"><span class="skill-dot"></span>React</div>
-          <div class="skill-item"><span class="skill-dot"></span>C# / Unity</div>
           <div class="skill-item"><span class="skill-dot"></span>Claude API</div>
-          <div class="skill-item"><span class="skill-dot"></span>Chrome Extensions</div>
-          <div class="skill-item"><span class="skill-dot"></span>REST APIs</div>
+          <div class="skill-item"><span class="skill-dot"></span>Alpaca Markets API</div>
           <div class="skill-item"><span class="skill-dot"></span>GitHub Actions</div>
-          <div class="skill-item"><span class="skill-dot"></span>Git</div>
+          <div class="skill-item"><span class="skill-dot"></span>Chrome Extensions</div>
+          <div class="skill-item"><span class="skill-dot"></span>Machine Learning</div>
+          <div class="skill-item"><span class="skill-dot"></span>REST APIs</div>
+          <div class="skill-item"><span class="skill-dot"></span>Swift / iOS</div>
+          <div class="skill-item"><span class="skill-dot"></span>Telegram Bot API</div>
         </div>
       </div>
     </div>
@@ -689,9 +689,9 @@ footer{
         </div>
         <div class="card-title">PriceLens</div>
         <div class="card-desc">
-          Chrome extension tracking prices on Amazon, Walmart, and Best Buy.
-          90-day history chart, target price alerts via Chrome Notifications,
-          and a live hot deal feed from Slickdeals and DealNews.
+          Amazon price tracker with 90-day history chart, target price
+          alerts via Chrome Notifications, and a live deal feed from
+          Slickdeals and DealNews.
         </div>
         <div class="card-tags">
           <span class="tag blue">Chrome MV3</span>
@@ -700,65 +700,6 @@ footer{
           <span class="tag">RSS</span>
         </div>
       </a>
-
-      <!-- Crypto Trading Bot -->
-      <a href="https://github.com/samuel-kim00/crypto-trading-bot" target="_blank" class="project-card reveal">
-        <div class="card-top">
-          <div class="card-icon">🔁</div>
-          <span class="card-arrow">↗</span>
-        </div>
-        <div class="card-title">Crypto Trading Bot</div>
-        <div class="card-desc">
-          Automated trading system in Python with a modular execution pipeline,
-          configurable strategy parameters, backtesting framework, and a
-          Flask-based monitoring dashboard for real-time system observability.
-        </div>
-        <div class="card-tags">
-          <span class="tag blue">Python</span>
-          <span class="tag">REST APIs</span>
-          <span class="tag">Flask</span>
-          <span class="tag">Backtesting</span>
-        </div>
-      </a>
-
-      <!-- iOS Budgeting App -->
-      <a href="https://github.com/samuel-kim00/ios-budgeting-app" target="_blank" class="project-card reveal">
-        <div class="card-top">
-          <div class="card-icon">💰</div>
-          <span class="card-arrow">↗</span>
-        </div>
-        <div class="card-title">iOS Budgeting App</div>
-        <div class="card-desc">
-          SwiftUI budgeting app built with LikeLion UCI. Feature-based MVVM architecture
-          with calendar-based spending visualization, transaction categorization,
-          and a scalable data model designed for future AI-assisted insights.
-        </div>
-        <div class="card-tags">
-          <span class="tag blue">Swift</span>
-          <span class="tag">SwiftUI</span>
-          <span class="tag">MVVM</span>
-          <span class="tag">Team Project</span>
-        </div>
-      </a>
-
-      <!-- Coffee Club Web Platform -->
-      <div class="project-card no-link reveal">
-        <div class="card-top">
-          <div class="card-icon">☕</div>
-        </div>
-        <div class="card-title">Coffee Club Web Platform</div>
-        <div class="card-desc">
-          Web platform for campus event tracking and member engagement,
-          built with HTML, CSS, and JavaScript. Also developed a Unity-based
-          mini game with object-oriented gameplay logic for the club.
-        </div>
-        <div class="card-tags">
-          <span class="tag blue">JavaScript</span>
-          <span class="tag">HTML / CSS</span>
-          <span class="tag">Unity</span>
-          <span class="tag">C#</span>
-        </div>
-      </div>
 
     </div>
   </div>
@@ -882,4 +823,16 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a');
 
-window.addEventListener('scroll', () =
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + current
+      ? 'var(--accent)' : '';
+  });
+}, { passive: true });
+</script>
+</body>
+</html>
